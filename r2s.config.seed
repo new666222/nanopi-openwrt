@@ -1,11 +1,10 @@
-# 一、设备与编译优化（原有配置保留）
+# 原有基础配置（保留不变）
 CONFIG_TARGET_rockchip=y
 CONFIG_TARGET_rockchip_armv8=y
 CONFIG_TARGET_rockchip_armv8_DEVICE_friendlyarm_nanopi-r2s=y
 CONFIG_TARGET_OPTIMIZATION="-O3 -pipe -march=armv8-a+crypto+crc -mcpu=cortex-a53+crypto+crc -mtune=cortex-a53"
 CONFIG_TARGET_ROOTFS_PARTSIZE=640
 
-# 二、核心功能插件（原有配置保留）
 CONFIG_PACKAGE_luci-app-ddnsto=y
 CONFIG_PACKAGE_luci-app-dockerman=y
 CONFIG_DOCKER_OPTIONAL_FEATURES=y
@@ -17,14 +16,12 @@ CONFIG_PACKAGE_luci-app-passwall=y
 CONFIG_PACKAGE_luci-app-qbittorrent=y
 CONFIG_PACKAGE_luci-app-statistics=y
 
-# 三、主题与监控（原有配置保留）
 CONFIG_PACKAGE_luci-theme-argon=y
 CONFIG_PACKAGE_luci-theme-openwrt=y
 CONFIG_PACKAGE_luci-theme-openwrt-2020=y
 CONFIG_PACKAGE_collectd-mod-ping=y
 CONFIG_PACKAGE_collectd-mod-thermal=y
 
-# 四、硬件驱动（原有配置保留）
 CONFIG_PACKAGE_kmod-gpu-lima=y
 CONFIG_PACKAGE_kmod-ath9k-htc=y
 CONFIG_PACKAGE_kmod-mt76x0u=y
@@ -32,30 +29,26 @@ CONFIG_PACKAGE_kmod-mt76x2u=y
 CONFIG_PACKAGE_kmod-r8125=y
 CONFIG_PACKAGE_kmod-rtw88=y
 CONFIG_PACKAGE_kmod-rtl8821cu=y
+
 CONFIG_PACKAGE_iw=y
 CONFIG_PACKAGE_iwinfo=y
 CONFIG_PACKAGE_wpad-basic-wolfssl=y
 CONFIG_DRIVER_11AC_SUPPORT=y
 CONFIG_DRIVER_11N_SUPPORT=y
 CONFIG_DRIVER_11W_SUPPORT=y
+
 CONFIG_PACKAGE_luci-app-oled=y
 
-# 五、校园网基础功能（原有配置保留）
-CONFIG_PACKAGE_luci-app-mentohust=y  # 锐捷认证LuCI界面
-CONFIG_PACKAGE_mentohust=y            # 锐捷认证核心
-CONFIG_PACKAGE_luci-app-ua2f=y        # UA2F防检测界面
-CONFIG_PACKAGE_ua2f=y                 # UA2F防检测核心
-CONFIG_PACKAGE_libustream-openssl=y   # UA2F依赖SSL库
+# 新增：1. 锐捷认证（校园网拨号+基础反检测）
+CONFIG_PACKAGE_luci-app-mentohust=y  # 锐捷认证LuCI控制界面（适配OpenWRT主流版本）
+CONFIG_PACKAGE_mentohust=y            # 锐捷认证核心程序（必需，与界面配套）
 
-# 六、新增：kmod-ipid防多设备检测（直接编译进固件）
-CONFIG_PACKAGE_kmod-rkp-ipid=y        # 核心：修改IPID的内核模块（适配NanoPi R2S的armv8架构）
-CONFIG_PACKAGE_iptables-mod-filter=y  # 配套依赖：IPtables过滤模块，确保IPID规则生效
-CONFIG_PACKAGE_iptables-mod-ipopt=y   # 配套依赖：支持IP参数修改，适配IPID模块功能
+# 新增：2. UA2F防封锁（规避运营商设备检测）
+CONFIG_PACKAGE_luci-app-ua2f=y        # UA2F防检测LuCI界面（可视化管理）
+CONFIG_PACKAGE_ua2f=y                 # UA2F防检测核心（必需，与界面配套）
+CONFIG_PACKAGE_libustream-openssl=y   # UA2F依赖的SSL加密库（确保功能正常运行）
 
-# 七、新增：UA3F集成（预编译依赖+编译后自动安装触发）
-# 1. UA3F必需依赖（提前编译进固件，避免手动安装报错）
-CONFIG_PACKAGE_libpthread=y           # UA3F多线程运行依赖
-CONFIG_PACKAGE_zlib=y                 # UA3F数据压缩/解压依赖
-CONFIG_PACKAGE_bash=y                 # UA3F安装脚本执行依赖（部分脚本需bash环境）
-# 2. 自定义标识（用于关联编译工具的“编译后脚本”，需工具支持）
-CONFIG_PACKAGE_custom-ua3f-install=y  # 标记需自动安装UA3F，无实际包，仅作触发用
+# 新增：3. IPID防多设备检测（修改IP标识，避免多设备识别）
+CONFIG_PACKAGE_kmod-rkp-ipid=y        # 核心：修改IPID的内核模块（适配R2S armv8架构）
+CONFIG_PACKAGE_iptables-mod-filter=y  # 配套依赖：IPtables过滤模块（IPID规则生效必需）
+CONFIG_PACKAGE_iptables-mod-ipopt=y   # 配套依赖：IP参数修改模块（支持IPID调整）
