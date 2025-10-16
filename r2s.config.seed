@@ -1,9 +1,11 @@
-# 原有基础配置（保留不变）
 CONFIG_TARGET_rockchip=y
 CONFIG_TARGET_rockchip_armv8=y
 CONFIG_TARGET_rockchip_armv8_DEVICE_friendlyarm_nanopi-r2s=y
+
 CONFIG_TARGET_OPTIMIZATION="-O3 -pipe -march=armv8-a+crypto+crc -mcpu=cortex-a53+crypto+crc -mtune=cortex-a53"
 CONFIG_TARGET_ROOTFS_PARTSIZE=640
+
+
 
 CONFIG_PACKAGE_luci-app-ddnsto=y
 CONFIG_PACKAGE_luci-app-dockerman=y
@@ -22,6 +24,7 @@ CONFIG_PACKAGE_luci-theme-openwrt-2020=y
 CONFIG_PACKAGE_collectd-mod-ping=y
 CONFIG_PACKAGE_collectd-mod-thermal=y
 
+
 CONFIG_PACKAGE_kmod-gpu-lima=y
 CONFIG_PACKAGE_kmod-ath9k-htc=y
 CONFIG_PACKAGE_kmod-mt76x0u=y
@@ -38,17 +41,11 @@ CONFIG_DRIVER_11N_SUPPORT=y
 CONFIG_DRIVER_11W_SUPPORT=y
 
 CONFIG_PACKAGE_luci-app-oled=y
-
-# 新增：1. 锐捷认证（校园网拨号+基础反检测）
-CONFIG_PACKAGE_luci-app-mentohust=y  # 锐捷认证LuCI控制界面（适配OpenWRT主流版本）
-CONFIG_PACKAGE_mentohust=y            # 锐捷认证核心程序（必需，与界面配套）
-
-# 新增：2. UA2F防封锁（规避运营商设备检测）
-CONFIG_PACKAGE_luci-app-ua2f=y        # UA2F防检测LuCI界面（可视化管理）
-CONFIG_PACKAGE_ua2f=y                 # UA2F防检测核心（必需，与界面配套）
-CONFIG_PACKAGE_libustream-openssl=y   # UA2F依赖的SSL加密库（确保功能正常运行）
-
-# 新增：3. IPID防多设备检测（修改IP标识，避免多设备识别）
-CONFIG_PACKAGE_kmod-rkp-ipid=y        # 核心：修改IPID的内核模块（适配R2S armv8架构）
-CONFIG_PACKAGE_iptables-mod-filter=y  # 配套依赖：IPtables过滤模块（IPID规则生效必需）
-CONFIG_PACKAGE_iptables-mod-ipopt=y   # 配套依赖：IP参数修改模块（支持IPID调整）
+CONFIG_PACKAGE_luci-app-mentohust=y
+CONFIG_PACKAGE_mentohust=y 
+CONFIG_PACKAGE_luci-app-ua2f=y
+CONFIG_PACKAGE_ua2f=y 
+CONFIG_PACKAGE_libustream-openssl=y
+CONFIG_PACKAGE_kmod-rkp-ipid=y
+CONFIG_PACKAGE_iptables-mod-filter=y 
+CONFIG_PACKAGE_iptables-mod-ipopt=y
